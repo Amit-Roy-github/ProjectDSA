@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Container } from '@mui/material';
-import { green } from '@mui/material/colors';
+import { green, grey } from '@mui/material/colors';
 import Header from './Layout/Header';
 import Footer from './Layout/Footer';
 import Content from './Layout/Content';
@@ -14,7 +14,7 @@ const Home = () => {
         disableGutters
         sx={{
            height:'100vh',
-           bgcolor: green[900],
+           bgcolor: '#0F0F0F',
            fontFamily : ' Satoshi, Open Sans, sans-serif' ,
         }}
      >
