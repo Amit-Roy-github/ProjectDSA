@@ -14,7 +14,7 @@ const Header = () => {
    return (
          <Paper sx={{
             bgcolor: grey[900],  //'#121418' ,
-            height: '4rem',
+            height: '4.5rem',
             px:'4rem'
          }}>
             <Box sx={{

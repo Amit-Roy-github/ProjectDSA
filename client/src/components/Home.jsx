@@ -13,7 +13,6 @@ const Home = () => {
         maxWidth={false}
         disableGutters
         sx={{
-           height:'100vh',
            bgcolor: '#0F0F0F',
            fontFamily : ' Satoshi, Open Sans, sans-serif' ,
         }}
