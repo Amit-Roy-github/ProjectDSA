@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { Container } from '@mui/material';
-import { green, grey } from '@mui/material/colors';
+import {
+   green,
+   grey
+} from '@mui/material/colors';
 import Header from './Layout/Header';
 import Footer from './Layout/Footer';
 import Content from './Layout/Content';
