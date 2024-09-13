@@ -10,11 +10,10 @@ import {
    ListItem,
    styled,
 } from '@mui/material';
+
+import { blueGrey, grey } from '@mui/material/colors';
+
 import "@fontsource/amaranth"
-import {
-   blueGrey,
-   grey
-} from '@mui/material/colors';
 
 const theme = createTheme({
    typography: {
@@ -91,10 +90,7 @@ const ProblemPage = () => {
                               fontWeight={550}
                               my={'0.4375rem'}
                            >
-                              Problem statement :
-                           </Typography>
-                           <Typography>
-                              {problem.statement}
+                              Problem statement : {problem.statement}
                            </Typography>
                         </MyBox>
                         <MyBox>
@@ -102,10 +98,7 @@ const ProblemPage = () => {
                               fontWeight={550}
                               my={'0.4375rem'}
                            >
-                              Note :
-                           </Typography>
-                           <Typography>
-                              {problem.note}
+                              Note : {problem.note}
                            </Typography>
                         </MyBox>
                         <MyBox>
