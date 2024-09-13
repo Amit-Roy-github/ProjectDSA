@@ -90,7 +90,10 @@ const ProblemPage = () => {
                               fontWeight={550}
                               my={'0.4375rem'}
                            >
-                              Problem statement : {problem.statement}
+                              Problem statement :
+                           </Typography>
+                           <Typography>
+                              {problem.statement}
                            </Typography>
                         </MyBox>
                         <MyBox>
@@ -98,7 +101,10 @@ const ProblemPage = () => {
                               fontWeight={550}
                               my={'0.4375rem'}
                            >
-                              Note : {problem.note}
+                              Note :
+                           </Typography>
+                           <Typography>
+                              {problem.note}
                            </Typography>
                         </MyBox>
                         <MyBox>
