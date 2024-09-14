@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import apiList from '../lib/apiList';
 import Header from './Layout/Header';
 import {
    Box,
@@ -14,6 +16,7 @@ import {
 import { blueGrey, grey } from '@mui/material/colors';
 
 import "@fontsource/amaranth"
+import axios from 'axios';
 
 const theme = createTheme({
    typography: {
@@ -33,8 +36,14 @@ const MyBox = styled(Box)({
 });
 
 const ProblemPage = () => {
+
+   const { slug } = useParams();
+   console.log(slug);
+   // use slug to get data from backend
+   // use this in Problem Card .
+
    const [problem, setProblem] = useState({
-      name: 'Two sum',
+      title: 'Two sum',
       statement: 'You are given an array of integers having length n and value Target t , print the pair of indices whose sum is equal to target .',
       note: 'Each Pair indices have to be unique . ',
       constraints: [
@@ -47,6 +56,14 @@ const ProblemPage = () => {
          { input: 'n=4 , arr[] = 8393 , t = 5 ', output: 5, explanation: 'I am the explanation' }
       ],
    });
+
+   useEffect(() => {
+      const fetchProblemDetails = async () => {
+         const response = await axios.get(`${apiList.server}/data-structure/${slug}`);
+         console.log(response);
+      };
+      fetchProblemDetails();
+   }, [slug]);
 
    return (
       <>
@@ -80,7 +97,7 @@ const ProblemPage = () => {
                               color: grey[300],
                               fontWeight: '550'
                            }}
-                        >{problem.name} </Typography>
+                        >{problem.title} </Typography>
                      </ThemeProvider>
                   </Box>
                   <ThemeProvider theme={colorTheme} >
@@ -215,4 +232,4 @@ const TestCase = ({ testCase, index }) => {
    )
 };
 
-export default ProblemPage ;
+export default ProblemPage;
