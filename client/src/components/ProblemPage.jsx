@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import apiList from '../lib/apiList';
 import Header from './Layout/Header';
+
 import {
    Box,
    Container,
@@ -14,6 +15,7 @@ import {
 } from '@mui/material';
 
 import { blueGrey, grey } from '@mui/material/colors';
+
 
 import "@fontsource/amaranth"
 import axios from 'axios';
@@ -31,16 +33,68 @@ const colorTheme = createTheme({
       }
    },
 });
+
 const MyBox = styled(Box)({
    paddingBottom: '1.5rem',
 });
 
+const TestCase = ({ testCase, index }) => {
+   return (
+      <>
+         <Typography
+            fontWeight={550}
+            my={'0.4375rem'}
+         >
+            # {index + 1} :
+         </Typography>
+         <List
+            key={`list-${index}`}
+            disablePadding
+         >
+            <ListItem
+               key={`input-${index}`}
+               disablePadding
+               sx={{
+                  py: '0.25rem'
+               }}>
+               <Typography>
+                  input format : {testCase.input}
+               </Typography>
+            </ListItem>
+            <ListItem
+               key={`output-${index}`}
+               disablePadding
+               sx={{
+                  py: '0.25rem'
+
+               }}>
+               <Typography>
+                  {'output\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0: ' + testCase.output}
+               </Typography>
+            </ListItem>
+            <ListItem
+               key={`explanation-${index}`}
+               disablePadding
+               sx={{
+                  display: 'block',
+                  py: '0.25rem'
+               }}>
+               <Typography>
+                  explanation :
+               </Typography>
+               <Typography
+                  px={'1.25rem'}
+               > {testCase.explanation}
+               </Typography>
+            </ListItem>
+         </List>
+      </>
+   )
+};
+
 const ProblemPage = () => {
 
    const { slug } = useParams();
-   console.log(slug);
-   // use slug to get data from backend
-   // use this in Problem Card .
 
    const [problem, setProblem] = useState({
       title: 'Two sum',
@@ -176,60 +230,6 @@ const ProblemPage = () => {
    )
 }
 
-const TestCase = ({ testCase, index }) => {
-   return (
-      <>
-         <Typography
-            fontWeight={550}
-            my={'0.4375rem'}
-         >
-            test-case {index + 1} :
-         </Typography>
-         <List
-            key={`list-${index}`}
-            disablePadding
-            sx={{
-               px: '0.4375rem'
-            }}>
-            <ListItem
-               key={`input-${index}`}
-               disablePadding
-               sx={{
-                  py: '0.25rem'
-               }}>
-               <Typography>
-                  input format : {testCase.input}
-               </Typography>
-            </ListItem>
-            <ListItem
-               key={`output-${index}`}
-               disablePadding
-               sx={{
-                  py: '0.25rem'
 
-               }}>
-               <Typography>
-                  {'output\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0: ' + testCase.output}
-               </Typography>
-            </ListItem>
-            <ListItem
-               key={`explanation-${index}`}
-               disablePadding
-               sx={{
-                  display: 'block',
-                  py: '0.25rem'
-               }}>
-               <Typography>
-                  explanation :
-               </Typography>
-               <Typography
-                  px={'1.25rem'}
-               > {testCase.explanation}
-               </Typography>
-            </ListItem>
-         </List>
-      </>
-   )
-};
 
 export default ProblemPage;

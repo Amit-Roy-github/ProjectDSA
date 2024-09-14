@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import Header from './Layout/Header';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import slugify from 'slugify';
 
 import {
    Box,
    Button,
    Card,
+   Checkbox,
    Container,
-   createTheme,
-   ThemeProvider,
+   Divider,
+   FormControl,
+   FormControlLabel,
+   FormGroup,
+   FormLabel,
    Typography
 } from '@mui/material';
 
@@ -21,18 +25,9 @@ import {
    red,
 } from '@mui/material/colors';
 
-import "@fontsource/aileron";
-import { Link } from 'react-router-dom';
+import SendIcon from '@mui/icons-material/Send';
 
-const theme = createTheme({
-   typography: {
-      fontFamily:
-         "Aileron",
-   },
-});
 
-// enable content creator to select hard , easy , medium
-// no need to input it
 const colors = {
    Easy: green[600],
    Medium: lime[500],
@@ -42,9 +37,7 @@ const colors = {
 const TitleCard = ({ problem, index }) => {
 
    const navigate = useNavigate();
-
    const slug = slugify(problem.title, { lower: true, strict: true });
-
    const handleClick = () => {
       navigate(`/data-structure/${slug}`);
    }
@@ -55,9 +48,9 @@ const TitleCard = ({ problem, index }) => {
          sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            background: 'transparent',
+            background: blueGrey[800],
             borderRadius: '1rem',
-            p: '1.5rem 2rem 1rem',
+            p: '1.5rem 2rem',
             m: '1rem 0'
          }}
       >
@@ -67,7 +60,8 @@ const TitleCard = ({ problem, index }) => {
             }}
          >
             <Typography
-               variant='h5'
+               fontSize={'1.4375rem'}
+               fontWeight={700}
             >
                {problem.title}
             </Typography>
@@ -100,26 +94,118 @@ const TitleCard = ({ problem, index }) => {
 
          <Box
             sx={{
-               p: '1rem'
+               display: 'flex',
+               alignItems: 'center',
+               // position:'relative'
             }}
          >
             <Button
+               disableRipple
                variant='contained'
                onClick={handleClick}
+               endIcon={<SendIcon />}
+               sx={{
+                  position: 'inherit',
+                  fontFamily: 'inherit'
+               }}
             >
-
+               Analyse
             </Button>
          </Box>
       </Card>
    )
 }
 
+const MyFormControlLabel = ({ checked, label, setState }) => {
+
+   const handleChange = (event) => {
+      const value = event.target.value;
+      setState((preState) => {
+         const newState = preState;
+         newState[value] = !newState[value];
+         return newState;
+      });
+
+
+   }
+   return (
+      <FormControlLabel
+         control={
+            <Checkbox
+               value={label}
+               style={{
+                  color: '#00e676',
+                  padding: '0.3125rem'
+               }}
+               onChange={handleChange}
+            />
+         }
+         label={label}
+      />
+   );
+};
+
 const ProblemList = () => {
+
+   const [tagState, setTagState] = useState({
+      Array: false,
+      String: false,
+      Graph: false,
+      Dp: false,
+      SlidingWindow: false,
+      Trie: false
+   });
+
+   const [difficultyState, setDifficultyState] = useState({
+      Easy: false,
+      Medium: false,
+      Hard: false
+   });
 
    const [problemDetails, setProblemDetails] = useState([
       {
-         title: 'Find the Final value of Array after performing operations',
+         title: 'Find the Final value of Array after performing ',
          difficulty: 'Medium',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
+      },
+      {
+         title: 'Find the Sum of the Array',
+         difficulty: 'Easy',
       },
       {
          title: 'Find the Sum of the Array',
@@ -133,8 +219,7 @@ const ProblemList = () => {
          maxWidth={false}
          disableGutters
          sx={{
-            height: '100vh',
-            background: blueGrey[900]
+            background: blueGrey[900],
          }}
       >
          <Header />
@@ -143,22 +228,86 @@ const ProblemList = () => {
             disableGutters
             sx={{
                display: 'grid',
-               gridTemplateColumns: '30% 70%'
+               gridTemplateColumns: '25% auto',
+               gap: '2rem'
             }}
          >
-            <Box >Left</Box>
-
-            <ThemeProvider theme={theme} >
+            <Box>
                <Box
+                  component={'section'}
                   sx={{
-                     py: '3rem',
-                     pr:'5rem'
+                     position: 'fixed',
+                     py: '4rem ',
+                     color: 'white',
                   }}
                >
-                  {problemDetails.map((problem, index) =>
-                     <TitleCard key={index} problem={problem} />)}
+                  <FormControl
+                     component={'fieldset'}
+                     variant='standard'
+                     sx={{
+                        marginLeft: '3rem'
+                     }}
+                  >
+                     <FormLabel
+                        component={'legend'}
+                     >
+                        <Typography variant='h5' color={grey[300]} >Difficulty</Typography>
+                     </FormLabel>
+
+                     <FormGroup sx={{ padding: '0.25rem' }}>
+                        {Object.entries(difficultyState).map(([key, isChecked]) =>
+                           <MyFormControlLabel
+                              label={key}
+                              checked={isChecked}
+                              setState={setDifficultyState}
+                           />
+                        )}
+                     </FormGroup>
+                  </FormControl>
+
+                  <Divider
+                     variant='middle'
+                     sx={{
+                        borderColor: grey[600],
+                        my: '0.5rem'
+                     }}
+                  />
+
+                  <FormControl
+                     component={'fieldset'}
+                     variant='standard'
+                     sx={{
+                        marginLeft: '3rem'
+                     }}
+                  >
+                     <FormLabel
+                        component={'legend'}
+                     >
+                        <Typography variant='h5' color={grey[300]} >Problem Tag</Typography>
+                     </FormLabel>
+
+                     <FormGroup sx={{ padding: '0.25rem' }}>
+                        {Object.entries(tagState).map(([key, isChecked]) =>
+                           <MyFormControlLabel
+                              label={key}
+                              checked={isChecked}
+                              setState={setTagState}
+                           />
+                        )}
+                     </FormGroup>
+                  </FormControl>
                </Box>
-            </ThemeProvider>
+            </Box>
+
+            <Box
+               sx={{
+                  py: '3rem',
+                  pr: '5rem'
+               }}
+            >
+               {problemDetails.map((problem, index) =>
+                  <TitleCard key={index} problem={problem} />)}
+            </Box>
 
          </Container>
       </Container>
@@ -166,3 +315,4 @@ const ProblemList = () => {
 }
 
 export default ProblemList;
+
