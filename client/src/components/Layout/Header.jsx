@@ -2,11 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
    Box,
+   Button,
    Container,
+   createTheme,
    Divider,
    MenuItem,
    MenuList,
-   Paper
+   Paper,
+   styled,
+   ThemeProvider
 } from '@mui/material';
 import {
    blue,
@@ -14,6 +18,7 @@ import {
 } from '@mui/material/colors';
 
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+
 
 const Header = () => {
 
@@ -28,7 +33,8 @@ const Header = () => {
          sx={{
             height: '4.5rem',
             overflow: 'hidden',
-            // fontFamily:'none'
+            zIndex: 99,
+            display:'flex'
          }}
       >
          <Paper
@@ -120,7 +126,7 @@ const Header = () => {
                </Box>
             </Box>
          </Paper>
-      </Container>
+         </Container>
    )
 }
 

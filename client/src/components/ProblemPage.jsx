@@ -194,7 +194,7 @@ const ProblemPage = () => {
                         <MyBox>
                            <Typography
                               fontWeight={550}
-                              my={'6px'}
+                              my={'0.375rem'}
                            >
                               Contraints :
                            </Typography>
@@ -220,6 +220,17 @@ const ProblemPage = () => {
                                  </ListItem>
                               ))}
                            </List>
+                        </MyBox>
+                        <MyBox>
+                           <Typography
+                              fontWeight={550}
+                              my={'0.375rem'}
+                           >
+                              Solution :
+                           </Typography>
+                           <Typography>
+                              For each element in the array we will try to find another element such that its sums is equal to target . if such two numbers exist we will return the indices otherwise return -1 .
+                           </Typography>
                         </MyBox>
                      </Box>
                   </ThemeProvider>
