@@ -7,8 +7,12 @@ import {
    Box,
    Button,
    Container,
+   FormControl,
    IconButton,
+   InputLabel,
+   MenuItem,
    Paper,
+   Select,
    TextField,
    Typography
 } from '@mui/material'
@@ -28,10 +32,11 @@ import apiList from '../lib/apiList';
 const initialProblemDetails = {
    title: '',
    statement: '',
+   difficulty: '',
    note: '',
    constraints: [],
    examples: [],
-   solution:''
+   solution: ''
 };
 
 const InputExample = ({ example, index, setProblemDetails }) => {
@@ -74,6 +79,7 @@ const InputExample = ({ example, index, setProblemDetails }) => {
          />
          <TextField
             fullWidth
+            multiline
             label='explanation'
             name='explanation'
             value={example.explanation}
@@ -92,18 +98,23 @@ const ProblemInput = () => {
       error: null,
       severity: '',
       message: '',
-      title:''
+      title: ''
    });
 
    const handleChange = (event) => {
       const name = event.target.name;
       const value = event.target.value;
-      console.log(value, name);
+
+      // console.log(name, value);
+
       setProblemDetails({
          ...problemDetails,
          [name]: value
-      })
+      });
+
    }
+   console.log(problemDetails);
+
 
    const addExample = () => {
 
@@ -145,7 +156,6 @@ const ProblemInput = () => {
    }
 
    const handleSubmit = async (e) => {
-      e.preventDefault();
 
       try {
          const response = await axios.post(`${apiList.server}/problemInput`, problemDetails);
@@ -154,7 +164,7 @@ const ProblemInput = () => {
             error: false,
             severity: 'success',
             message: response.data,
-            title:problemDetails.title,
+            title: problemDetails.title,
          });
          setProblemDetails(initialProblemDetails);
       }
@@ -163,8 +173,8 @@ const ProblemInput = () => {
          setSavedMessage({
             error: true,
             severity: 'error',
-            message: error.response.data,
-            title:''
+            message: 'Error occured in saving data',
+            title: ''
          });
       };
    };
@@ -179,7 +189,8 @@ const ProblemInput = () => {
          maxWidth={false}
          disableGutters
          sx={{
-            height: '200vh',
+            minheight: '100vh',
+            py:'1rem',
             bgcolor: blueGrey[500],
             display: 'flex',
             justifyContent: 'center',
@@ -219,9 +230,7 @@ const ProblemInput = () => {
                   </Box>) : null
             }
 
-            <form
-               onSubmit={handleSubmit}
-            >
+            <form >
                <TextField
                   // required
                   label='Title'
@@ -235,6 +244,7 @@ const ProblemInput = () => {
                />
                <TextField
                   // required
+                  multiline
                   name='statement'
                   label='Problem Statement'
                   value={problemDetails.statement}
@@ -245,8 +255,27 @@ const ProblemInput = () => {
                   }}
                />
                <TextField
+                  required
+                  select
+                  name='difficulty'
+                  label='Difficulty'
+                  value={problemDetails.difficulty}
+                  onChange={handleChange}
+                  sx={{
+                     width: '8rem',
+                     mb: 4,
+                     padding: 0,
+                  }}
+               >
+                  <MenuItem value='Easy' >Easy</MenuItem>
+                  <MenuItem value='Medium' >Medium</MenuItem>
+                  <MenuItem value='Hard' >Hard</MenuItem>
+               </TextField>
+
+               <TextField
                   label='note'
                   name='note'
+                  multiline
                   value={problemDetails.note}
                   onChange={handleChange}
                   fullWidth
@@ -312,7 +341,7 @@ const ProblemInput = () => {
                   endIcon={<SendIcon />}
                   variant='contained'
                   color='success'
-                  type='submit'
+                  onClick={handleSubmit}
                >
                   save
                </Button>

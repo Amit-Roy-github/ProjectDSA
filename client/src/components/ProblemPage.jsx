@@ -58,7 +58,7 @@ const TestCase = ({ testCase, index }) => {
                   py: '0.25rem'
                }}>
                <Typography>
-                  input format : {testCase.input}
+                  Input format : {testCase.input}
                </Typography>
             </ListItem>
             <ListItem
@@ -69,7 +69,7 @@ const TestCase = ({ testCase, index }) => {
 
                }}>
                <Typography>
-                  {'output\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0: ' + testCase.output}
+                  {'Output\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0: ' + testCase.output}
                </Typography>
             </ListItem>
             <ListItem
@@ -80,9 +80,10 @@ const TestCase = ({ testCase, index }) => {
                   py: '0.25rem'
                }}>
                <Typography>
-                  explanation :
+                  Explanation :
                </Typography>
                <Typography
+                  whiteSpace={'pre-line'}
                   px={'1.25rem'}
                > {testCase.explanation}
                </Typography>
@@ -105,16 +106,27 @@ const ProblemPage = () => {
          ' arr[i] <= 1e9',
          ' Target <=  1e9',
       ],
-      example: [
+      examples: [
          { input: 'n=4 , arr[] = 8393 , t = 5 ', output: 5, explanation: 'I am the explanation' },
          { input: 'n=4 , arr[] = 8393 , t = 5 ', output: 5, explanation: 'I am the explanation' }
       ],
    });
 
    useEffect(() => {
+
       const fetchProblemDetails = async () => {
-         const response = await axios.get(`${apiList.server}/data-structure/${slug}`);
-         console.log(response);
+         try {
+            const response = await axios.get(`${apiList.server}/data-structure/${slug}`);
+            console.log(response.data);
+
+            setProblem(response.data);
+            console.log(response.data)
+         }
+         catch (error)
+         {
+            console.error('error occured while fetching data ');
+
+         }
       };
       fetchProblemDetails();
    }, [slug]);
@@ -151,7 +163,7 @@ const ProblemPage = () => {
                               color: grey[300],
                               fontWeight: '550'
                            }}
-                        >{problem.title} </Typography>
+                        >{problem.title.charAt(0).toUpperCase()+problem.title.slice(1)} </Typography>
                      </ThemeProvider>
                   </Box>
                   <ThemeProvider theme={colorTheme} >
@@ -163,7 +175,9 @@ const ProblemPage = () => {
                            >
                               Problem statement :
                            </Typography>
-                           <Typography>
+                           <Typography
+                              whiteSpace={'pre-line'}
+                           >
                               {problem.statement}
                            </Typography>
                         </MyBox>
@@ -186,7 +200,7 @@ const ProblemPage = () => {
                               Examples :
                            </Typography>
                            <Box sx={{ p: '0.5rem' }}>
-                              {problem.example.map((element, index) =>
+                              {problem.examples.map((element, index) =>
                                  <TestCase testCase={element} index={index} />
                               )}
                            </Box>

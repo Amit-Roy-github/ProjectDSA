@@ -13,10 +13,41 @@ connectDB().then(() => {
 
 });
 
-app.get('/data-structure/:slug' , async (req, res) => {
+app.get('/data-structure/:slug', async (req, res) => {
+
    const title = req.params.slug.replace(/-/g, ' ');
-   res.json("From Backed with slug");
+   try {
+      const problem = await Problem.findOne({title:title});
+      res.json(problem);
+   }
+   catch (error)
+   {
+      console.error(error);
+      res.status(500).json({ message: 'Error fetching problem data ' });
+   }
 });
+
+app.get('/data-structure', async (req, res) => {
+
+   try {
+      const allProblem = await Problem.find();
+
+      if (!allProblem)
+      {
+         res.status(404).json({ message: 'List not found ' });
+      }
+
+      const summery = allProblem.map((problem) => ({
+         title: problem.title,
+         difficulty : problem.difficulty ,
+      }));
+      res.json(summery);
+   }
+   catch (error) {
+      console.error(error);
+      res.status(500).json({message:'Error fetching list data '})
+   }
+})
 
 
 
@@ -39,12 +70,13 @@ app.post('/problemInput', async (req, res) => {
    // console.log(req.body)
    try {
       const newProblem = new Problem(req.body);
+      newProblem.title = newProblem.title.toLowerCase();
        await newProblem.save();
       res.json('Problem saved successfully');
    }
    catch(error) {
-      // console.error(error);
-      res.status(500).json('A error occured while saving the problem');
+      console.error(error);
+      res.status(500).json({ message: 'A error occured while saving the problem' });
    }
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './Layout/Header';
 import { useNavigate } from 'react-router-dom';
 import slugify from 'slugify';
@@ -26,6 +26,9 @@ import {
 } from '@mui/material/colors';
 
 import SendIcon from '@mui/icons-material/Send';
+import AddIcon from '@mui/icons-material/Add';
+import axios from 'axios';
+import apiList from '../lib/apiList';
 
 
 const colors = {
@@ -63,7 +66,7 @@ const TitleCard = ({ problem, index }) => {
                fontSize={'1.4375rem'}
                fontWeight={700}
             >
-               {problem.title}
+               {problem.title.charAt(0).toUpperCase()+problem.title.slice(1)}
             </Typography>
             <Box
                display={'flex'}
@@ -147,6 +150,8 @@ const MyFormControlLabel = ({ checked, label, setState }) => {
 
 const ProblemList = () => {
 
+   const navigate = useNavigate();
+
    const [tagState, setTagState] = useState({
       Array: false,
       String: false,
@@ -162,57 +167,24 @@ const ProblemList = () => {
       Hard: false
    });
 
-   const [problemDetails, setProblemDetails] = useState([
-      {
-         title: 'Find the Final value of Array after performing ',
-         difficulty: 'Medium',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-      {
-         title: 'Find the Sum of the Array',
-         difficulty: 'Easy',
-      },
-
+   const [problemList, setproblemList] = useState([
+      { title :'' , difficulty:''},
    ]);
+
+   useEffect(() => {
+      const fetchDetails = async () => {
+         try {
+            const response = await axios.get(`${apiList.server}/data-structure`);
+            setproblemList(response.data);
+            console.log(response.data);
+         }
+         catch (err) {
+            console.error(err);
+         }
+      };
+      fetchDetails();
+
+   }, []);
 
    return (
       <Container
@@ -220,6 +192,7 @@ const ProblemList = () => {
          disableGutters
          sx={{
             background: blueGrey[900],
+            minHeight:'100vh'
          }}
       >
          <Header />
@@ -296,6 +269,25 @@ const ProblemList = () => {
                         )}
                      </FormGroup>
                   </FormControl>
+                  <Divider
+                     variant='middle'
+                     sx={{
+                        borderColor: grey[600],
+                        my: '0.5rem'
+                     }}
+                  />
+                  <Button
+                     endIcon={<AddIcon />}
+                     variant='contained'
+                     color='secondary'
+                     onClick={()=>navigate('input/input-problem')}
+                     sx={{
+                       m:'0.375rem 2rem'
+                     }}
+                   >
+                     contribute
+                  </Button>
+
                </Box>
             </Box>
 
@@ -305,7 +297,7 @@ const ProblemList = () => {
                   pr: '5rem'
                }}
             >
-               {problemDetails.map((problem, index) =>
+               {problemList.map((problem, index) =>
                   <TitleCard key={index} problem={problem} />)}
             </Box>
 

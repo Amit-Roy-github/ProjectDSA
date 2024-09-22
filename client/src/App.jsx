@@ -7,6 +7,7 @@ import ProblemPage from './components/ProblemPage';
 import MessagePopup from './lib/MessagePopup';
 import ProblemList from './components/ProblemList';
 import ProblemInput from './components/ProblemInput';
+import Blog from './components/Blog';
 
 
 
@@ -32,7 +33,8 @@ const App = () => {
                {/* <Route path=':slug' element={ <ProblemPage />} /> */}
             </Route>
             <Route path='data-structure/:slug' element={<ProblemPage />} />
-            <Route path='input' element={<ProblemInput />} />
+            <Route path='data-structure/input/input-problem' element={<ProblemInput />} />
+            <Route path='/blog' element={<Blog />} />
          </Routes>
          <MessagePopup
             open={popup.open}
