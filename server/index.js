@@ -67,11 +67,11 @@ app.post('/signup', (req, res) => {
 
 
 app.post('/problemInput', async (req, res) => {
-   // console.log(req.body)
    try {
       const newProblem = new Problem(req.body);
       newProblem.title = newProblem.title.toLowerCase();
-       await newProblem.save();
+      await newProblem.save();
+      console.log(newProblem)
       res.json('Problem saved successfully');
    }
    catch(error) {

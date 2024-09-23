@@ -25,6 +25,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import SendIcon from '@mui/icons-material/Send'
 import EastIcon from '@mui/icons-material/East';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import apiList from '../lib/apiList';
 
@@ -33,10 +34,27 @@ const initialProblemDetails = {
    title: '',
    statement: '',
    difficulty: '',
+   tag:'',
    note: '',
    constraints: [],
    examples: [],
    solution: ''
+};
+
+const state = {
+   tags: [
+      'Array',
+      'String',
+      'Graph',
+      'Dp',
+      'SlidingWindow',
+      'Trie'
+   ],
+   difficulty: [
+      'Easy',
+      'Medium',
+      'Hard'
+   ]
 };
 
 const InputExample = ({ example, index, setProblemDetails }) => {
@@ -129,8 +147,13 @@ const ProblemInput = () => {
             explanation: ''
          }],
       }));
-
    }
+   const removeExample = () => {
+      setProblemDetails((preDetails) => ({
+         ...problemDetails,
+         examples: preDetails.examples.slice(0, -1),
+      }));
+   };
 
    const handleConstraints = (index, value) => {
 
@@ -264,12 +287,28 @@ const ProblemInput = () => {
                   sx={{
                      width: '8rem',
                      mb: 4,
+                     mr:3,
                      padding: 0,
                   }}
                >
-                  <MenuItem value='Easy' >Easy</MenuItem>
-                  <MenuItem value='Medium' >Medium</MenuItem>
-                  <MenuItem value='Hard' >Hard</MenuItem>
+                  { state.difficulty.map((tag) => <MenuItem value={tag}>{tag}</MenuItem> )}
+               </TextField>
+               <TextField
+                  required
+                  select
+                  name='tag'
+                  label='Tag'
+                  value={problemDetails.tag}
+                  onChange={handleChange}
+                  sx={{
+                     width: '10rem',
+                     mb: 4,
+                     padding: 0,
+                  }}
+               >
+                  {
+                     state.tags.map((tag) => <MenuItem value={tag}>{tag}</MenuItem> )
+                  }
                </TextField>
 
                <TextField
@@ -307,6 +346,13 @@ const ProblemInput = () => {
                         onClick={addExample}
                      >
                         <AddIcon />
+                     </IconButton>
+                     <IconButton color='success' sx={{
+                        bgcolor: green[400]
+                     }}
+                        onClick={removeExample}
+                     >
+                        <DeleteIcon />
                      </IconButton>
                   </Box>
                </Box>

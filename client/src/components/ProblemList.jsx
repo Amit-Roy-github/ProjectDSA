@@ -119,17 +119,22 @@ const TitleCard = ({ problem, index }) => {
    )
 }
 
-const MyFormControlLabel = ({ checked, label, setState }) => {
+const MyFormControlLabel = ({ label, setState }) => {
 
    const handleChange = (event) => {
       const value = event.target.value;
       setState((preState) => {
-         const newState = preState;
-         newState[value] = !newState[value];
-         return newState;
+         const newState = { ...preState };
+         Object.entries(preState).some(([entryKey, entryVal]) =>
+            Object.entries(entryVal).some(([key, val]) => {
+               if (value === key) {
+                  newState[entryKey] = {...entryVal , [key] : !val } ;
+                  return true;
+               }
+            })
+         )
+         return newState ;
       });
-
-
    }
    return (
       <FormControlLabel
@@ -152,31 +157,52 @@ const ProblemList = () => {
 
    const navigate = useNavigate();
 
-   const [tagState, setTagState] = useState({
-      Array: false,
-      String: false,
-      Graph: false,
-      Dp: false,
-      SlidingWindow: false,
-      Trie: false
+   const [state, setState] = useState({
+      tags: {
+         Array: false,
+         String: false,
+         Graph: false,
+         Dp: false,
+         SlidingWindow: false,
+         Trie: false
+      },
+      difficulty: {
+         Easy: false,
+         Medium: false,
+         Hard: false
+      }
    });
 
-   const [difficultyState, setDifficultyState] = useState({
-      Easy: false,
-      Medium: false,
-      Hard: false
-   });
 
-   const [problemList, setproblemList] = useState([
-      { title :'' , difficulty:''},
-   ]);
+   const [problemList, setProblemList] = useState([]);
+   const [problemCache, setProblemCache] = useState([]);
+
+   useEffect(() => {
+
+      const filterList = () => {
+         setProblemList(() => {
+            const newList = problemCache.filter(problem =>
+               Object.entries(state).some(([entry, entryVal]) =>
+                  Object.entries(entryVal).some(([key, val]) =>
+                     val && problem[entry] === key
+                  )
+               )
+            )
+            return !newList.length ?  problemCache : newList ;
+         })
+      };
+      filterList();
+
+   }, [state]);
+
 
    useEffect(() => {
       const fetchDetails = async () => {
          try {
             const response = await axios.get(`${apiList.server}/data-structure`);
-            setproblemList(response.data);
-            console.log(response.data);
+            setProblemCache(response.data);
+            setProblemList(response.data);
+            // console.log(response.data);
          }
          catch (err) {
             console.error(err);
@@ -228,11 +254,11 @@ const ProblemList = () => {
                      </FormLabel>
 
                      <FormGroup sx={{ padding: '0.25rem' }}>
-                        {Object.entries(difficultyState).map(([key, isChecked]) =>
+                        {Object.entries(state.difficulty).map(([key, isChecked]) =>
                            <MyFormControlLabel
                               label={key}
                               checked={isChecked}
-                              setState={setDifficultyState}
+                              setState={setState}
                            />
                         )}
                      </FormGroup>
@@ -260,11 +286,11 @@ const ProblemList = () => {
                      </FormLabel>
 
                      <FormGroup sx={{ padding: '0.25rem' }}>
-                        {Object.entries(tagState).map(([key, isChecked]) =>
+                        {Object.entries(state.tags).map(([key, isChecked]) =>
                            <MyFormControlLabel
                               label={key}
                               checked={isChecked}
-                              setState={setTagState}
+                              setState={setState}
                            />
                         )}
                      </FormGroup>

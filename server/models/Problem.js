@@ -4,7 +4,7 @@ import { Schema } from "mongoose";
 const example = new Schema({
    input: {type : String , required : true } ,
    output: {type : String , required : true } ,
-   explanation: {type : String , required : true } ,
+   explanation: String ,
 });
 
 const problemSchema = new Schema({
@@ -13,6 +13,7 @@ const problemSchema = new Schema({
    note: String,
    difficulty:{type : String , required : true } ,
    constraints: [String],
+   tag : String ,
    examples : [example],
    solution: String
 });

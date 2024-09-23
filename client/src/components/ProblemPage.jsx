@@ -72,22 +72,23 @@ const TestCase = ({ testCase, index }) => {
                   {'Output\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0: ' + testCase.output}
                </Typography>
             </ListItem>
-            <ListItem
-               key={`explanation-${index}`}
-               disablePadding
-               sx={{
-                  display: 'block',
-                  py: '0.25rem'
-               }}>
-               <Typography>
-                  Explanation :
-               </Typography>
-               <Typography
-                  whiteSpace={'pre-line'}
-                  px={'1.25rem'}
-               > {testCase.explanation}
-               </Typography>
-            </ListItem>
+            {testCase.explanation ? (
+               <ListItem
+                  key={`explanation-${index}`}
+                  disablePadding
+                  sx={{
+                     display: 'block',
+                     py: '0.25rem'
+                  }}>
+                  <Typography>
+                     Explanation :
+                  </Typography>
+                  <Typography
+                     whiteSpace={'pre-line'}
+                     px={'1.25rem'}
+                  > {testCase.explanation}
+                  </Typography>
+               </ListItem>) : null}
          </List>
       </>
    )
@@ -181,17 +182,19 @@ const ProblemPage = () => {
                               {problem.statement}
                            </Typography>
                         </MyBox>
-                        <MyBox>
-                           <Typography
-                              fontWeight={550}
-                              my={'0.4375rem'}
-                           >
-                              Note :
-                           </Typography>
-                           <Typography>
-                              {problem.note}
-                           </Typography>
-                        </MyBox>
+                        { problem.note ? (
+                           <MyBox>
+                              <Typography
+                                 fontWeight={550}
+                                 my={'0.4375rem'}
+                              >
+                                 Note :
+                              </Typography>
+                              <Typography>
+                                 {problem.note}
+                              </Typography>
+                           </MyBox>) : null
+                        }
                         <MyBox>
                            <Typography
                               fontWeight={550}
