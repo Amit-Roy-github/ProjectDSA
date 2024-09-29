@@ -8,6 +8,8 @@ import MessagePopup from './lib/MessagePopup';
 import ProblemList from './components/ProblemList';
 import ProblemInput from './components/ProblemInput';
 import Blog from './components/Blog';
+import AlgorithmPage from './components/AlgorithmPage';
+import InputAlgorithm from './components/InputAlgorithm';
 
 
 
@@ -32,6 +34,8 @@ const App = () => {
             <Route path='/data-structure' element={<ProblemList />}>
                {/* <Route path=':slug' element={ <ProblemPage />} /> */}
             </Route>
+            <Route path='/algorithm' element={<AlgorithmPage />} />
+            <Route path='/input-algorithm' element={<InputAlgorithm />} />
             <Route path='data-structure/:slug' element={<ProblemPage />} />
             <Route path='data-structure/input/input-problem' element={<ProblemInput />} />
             <Route path='/blog' element={<Blog />} />

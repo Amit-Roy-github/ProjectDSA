@@ -1,5 +1,14 @@
-import {Paper ,  Typography, TextField, Button } from '@mui/material'
-import { Container } from '@mui/material'
+import {
+   Paper,
+   Typography,
+   TextField,
+   Button
+} from '@mui/material'
+
+import {
+   Container
+} from '@mui/material'
+
 import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import EmailInput from '../lib/EmailInput'
@@ -20,7 +29,6 @@ const Signup = () => {
    });
 
    const [inputErrorHandler, setInputErrorHandler] = useState({
-
       email: {
          error: true,
          message: '',
@@ -81,6 +89,7 @@ const Signup = () => {
          });
       }
    }
+   
    return  (
       <Container
          maxWidth={false}

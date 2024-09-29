@@ -182,7 +182,6 @@ const ProblemInput = () => {
 
       try {
          const response = await axios.post(`${apiList.server}/problemInput`, problemDetails);
-
          setSavedMessage({
             error: false,
             severity: 'success',

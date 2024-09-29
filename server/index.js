@@ -2,6 +2,7 @@ import express from "express";
 import cors from 'cors';
 import { connectDB } from "./database/db.js";
 import Problem from "./models/Problem.js";
+import Algorithm from "./models/Algorithm.js";
 
 const app = express();
 const port = 3000;
@@ -70,13 +71,27 @@ app.post('/problemInput', async (req, res) => {
    try {
       const newProblem = new Problem(req.body);
       newProblem.title = newProblem.title.toLowerCase();
-      await newProblem.save();
+      // await newProblem.save();
       console.log(newProblem)
       res.json('Problem saved successfully');
    }
    catch(error) {
       console.error(error);
       res.status(500).json({ message: 'A error occured while saving the problem' });
+   }
+});
+
+app.post('/alogritmInput', async (req, res) => {
+   try {
+      const newAlgorithm = new Algorithm(req.body);
+      newAlgorithm.title = newAlgorithm.title.toLowerCase();
+      await newAlgorithm.save();
+      console.log(newAlgorithm);
+      res.json('saved successfully ');
+   }
+   catch (error) {
+      console.error(error);
+      res.status(500).json('Eroor occured in saving data ');
    }
 });
 

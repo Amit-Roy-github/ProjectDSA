@@ -6,6 +6,7 @@ import {
    createTheme,
    ThemeProvider
 } from '@mui/material'
+
 import React, { useState } from 'react'
 import Header from './Layout/Header'
 
@@ -29,6 +30,7 @@ const theme = createTheme({
    },
    typography: {
       fontFamily: 'verdana , sans-serif',
+      //  "Noto Serif", "Inter", "Rubik", "Merriweather", "Georgia", Cambria, "Times New Roman", Times, serif
    },
 
 });
